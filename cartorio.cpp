@@ -22,7 +22,7 @@ int registro() // função responsável por cadastrar os usuários no sistema
     file = fopen(arquivo, "w"); // Cria o arquivo e o "w" significa escrever
     if (file != NULL) // Verifica se o arquivo foi criado com sucesso
     {
-        fprintf(file, cpf); // Salva o valor da variável CPF no arquivo
+        fprintf(file, "%s", cpf); // Salva o valor da variável CPF no arquivo
         fclose(file);       // Fecha o arquivo
 
         file = fopen(arquivo, "a"); // Abre o arquivo em modo de adição
@@ -33,7 +33,7 @@ int registro() // função responsável por cadastrar os usuários no sistema
         scanf("%s", nome); // Lê o nome fornecido pelo usuário e armazena na variável nome (o %s indica que é uma string)
 
         file = fopen(arquivo, "a"); // Abre o arquivo em modo de adição
-        fprintf(file, nome); // Adiciona o nome no arquivo
+        fprintf(file, "%s", nome); // Adiciona o nome no arquivo
         fclose(file); // Fecha o arquivo
 
         file = fopen(arquivo, "a"); // Abre o arquivo em modo de adição
@@ -44,7 +44,7 @@ int registro() // função responsável por cadastrar os usuários no sistema
         scanf("%s", sobrenome); // Lê o sobrenome fornecido pelo usuário e armazena na variável sobrenome (o %s indica que é uma string)
 
         file = fopen(arquivo, "a"); // Abre o arquivo em modo de adição
-        fprintf(file, sobrenome); // Adiciona o sobrenome no arquivo
+        fprintf(file, "%s", sobrenome); // Adiciona o sobrenome no arquivo
         fclose(file); // Fecha o arquivo
 
         file = fopen(arquivo, "a"); // Abre o arquivo em modo de adição
@@ -55,10 +55,9 @@ int registro() // função responsável por cadastrar os usuários no sistema
         scanf("%s", cargo); // Lê o cargo fornecido pelo usuário e armazena na variável cargo (o %s indica que é uma string)
 
         file = fopen(arquivo, "a"); // Abre o arquivo em modo de adição
-        fprintf(file, cargo); // Adiciona o cargo no arquivo
+        fprintf(file, "%s", cargo); // Adiciona o cargo no arquivo
         fclose(file); // Fecha o arquivo
     }
-    else // Se o arquivo não pôde ser criado
     {
         printf("Erro ao criar o arquivo.\n"); // Mensagem de erro
     }
@@ -85,7 +84,6 @@ int consulta() // função responsável por consultar os usuários no sistema
     {
         printf("Não foi possível abrir o arquivo, não localizado.\n"); // Mensagem de erro
     }
-    else
     {
         while (fgets(conteudo, 200, file) != NULL) // Lê o conteúdo do arquivo
         {
@@ -113,8 +111,11 @@ int deletar() // função responsável por deletar os usuários no sistema
 
     if (file == NULL) // Verifica se o arquivo foi removido com sucesso
     {
-        printf("O usuário não se encontra no sistema!.\n"); // Mensagem de sucesso
+        printf("O usuário não se encontra no sistema!\n"); // Mensagem de sucesso
         system("pause"); // Pausa o sistema para que o usuário possa ver as mensagens
+    }
+    {
+        fclose(file); // Fecha o arquivo caso ele ainda exista
     }
 }
 
@@ -135,6 +136,7 @@ int main() // Função principal que controla o fluxo do programa
         printf("\t1 - Registrar nomes\n");
         printf("\t2 - Consultar nomes\n");
         printf("\t3 - Deletar nomes\n");
+        printf("\t4 - Sair do sistema\n\n");
         printf("Opção: "); // Fim do menu
 
         scanf("%d", &opcao); // Armazena a escolha do usuário
@@ -154,6 +156,10 @@ int main() // Função principal que controla o fluxo do programa
             case 3:
                 deletar(); // Chama a função de deletar
                 break;
+            
+            case 4:
+                printf("Obrigado por utilizar o sistema!\n"); // Mensagem de despedida
+                return 0; // Encerra o programa
                 
             default: // Caso o usuário escolha uma opção inválida
                 printf("Essa opção não está disponível!\n"); // Mensagem de erro
